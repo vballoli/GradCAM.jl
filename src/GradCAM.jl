@@ -1,5 +1,5 @@
 using Flux, Metalhead, Images, Statistics
-using Flux: Chain, Dense, Conv
+using Flux: Chain, Dense, Conv, onehotbatch
 using Metalhead: VGG
 
 function get_backend(arch::String="vgg")
@@ -45,4 +45,12 @@ end
 
 function normalize(x::AbstractArray)
     return (x + 1e-1-) / (sqrt(mean(x^2 + 1e-10)))
+end
+
+function target_category_loss(x, category_index, classes)
+    return onehotbatch(category_index, 1:classes)
+end
+
+function guided_backprop(input_model, images)
+    
 end
