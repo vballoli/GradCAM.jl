@@ -1,6 +1,9 @@
-using Flux, Metalhead, Images, Statistics
+using Flux, Metalhead, Images, Statistics, Zygote
 using Flux: Chain, Dense, Conv, onehotbatch
+using Zygote: @adjoint
 using Metalhead: VGG
+
+@adjoint relu(x) = relu(x), Δ -> ((Δ .* (Δ .> 0)) * (x .* (x .> 0)) .* Δ, -1)
 
 function get_backend(arch::String="vgg")
     if arch == "vgg"
@@ -52,5 +55,5 @@ function target_category_loss(x, category_index, classes)
 end
 
 function guided_backprop(input_model, images)
-    
+
 end
