@@ -54,6 +54,6 @@ function target_category_loss(x, category_index, classes)
     return onehotbatch(category_index, 1:classes)
 end
 
-function guided_backprop(input_model, images)
-
+function guided_backprop(input_model, image)
+    gradient(()->sum(input_model(image)), params(input_model))
 end
